@@ -1,0 +1,18 @@
+type Phrase {
+  id: ID! @unique
+  startTime: Int
+  stopTime: Int
+  originalText: String
+  translateText: String
+}
+
+type Lesson {
+  id: ID! @unique
+  phrases: [Phrase!]!
+}
+
+type Course { 
+  id: ID! @unique
+  name: String
+  lessons: [Lesson!]!
+}
