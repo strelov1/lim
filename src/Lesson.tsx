@@ -29,6 +29,8 @@ interface LessonState {
 
 export class Lesson extends React.Component<LessonProps, LessonState> {
   
+  phrases : Phrase[]
+
   constructor(props : LessonProps) {
     super(props);
     this.state = {
@@ -56,22 +58,30 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
     console.log('GUESSED');
     this.setState({
       inputValue : null
-   });
+   }, () => {
     this.nextPhrase();
+   });
   }
 
   nextPhrase = () => {
-    // const nextIndex = this.state.indexPhrase + 1;
-    // if (this.state.phrases[nextIndex]) {
-    //   this.onPickedPhrase(nextIndex, this.state.phrases[nextIndex])
-    // }
+    const nextIndex = this.state.indexPhrase + 1;
+    if (this.phrases[nextIndex]) {
+      this.onPickedPhrase(nextIndex, this.phrases[nextIndex])
+    }
   }
 
   previousPhrase = () => {
-    //
+    const previousIndex = this.state.indexPhrase - 1;
+    if (this.phrases[previousIndex]) {
+      this.onPickedPhrase(previousIndex, this.phrases[previousIndex])
+    }
   }
 
   phraseList(phrases : Phrase[]) {
+    
+    // save phrases
+    this.phrases = phrases;
+    
     return phrases.map((phrase, key) => {
       return (
         <tr key={key} onClick={() => this.onPickedPhrase(key, phrase)}>

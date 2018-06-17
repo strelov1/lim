@@ -53,15 +53,14 @@ export class TextInput extends React.Component<InputProps, InputState> {
           intnet : Intent.NONE
         });
     } else {
-      this.setState({ intnet : Intent.DANGER });
-    }
-
-    if (words.length ===  0) {
-      this.setState({ 
-        intnet : Intent.SUCCESS,
-        
-      });
-      this.props.onGuessed();
+      if (words.length ===  0) {
+        this.setState({ 
+          intnet : Intent.SUCCESS,
+        });
+        this.props.onGuessed();
+      } else {
+        this.setState({ intnet : Intent.DANGER });
+      }
     }
   }
 
@@ -69,6 +68,7 @@ export class TextInput extends React.Component<InputProps, InputState> {
     return (
       <div className="input-box">
           <TextArea
+            autoFocus
             intent={this.state.intnet}
             className="pt-fill"
             onChange={this.onChange}
