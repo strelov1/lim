@@ -8,6 +8,7 @@ class CourseQuery extends Query<GetCourseQuery> {}
 
 interface CourseProps {
   courseId : string
+  onPickedLesson: (courseId : string) => void;
 }
 
 class Course extends React.Component<CourseProps> {
@@ -36,7 +37,7 @@ class Course extends React.Component<CourseProps> {
               <tbody>
                 {
                   data.course.lessons && data.course.lessons.map((lesson, key) => { return lesson ? 
-                      <tr key={key}>
+                      <tr key={key} onClick={() => this.props.onPickedLesson(lesson.id)}>
                         <td>{lesson.id}</td>
                         <td>10%</td>
                       </tr>

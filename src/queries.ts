@@ -45,6 +45,23 @@ export const GetLessons = gql`
   }
 `;
 
+export const GetLesson = gql`
+  query GetLesson($id : ID) {
+    lesson(where: {
+      id : $id
+    }) {
+      id
+        phrases {
+          id
+          startTime
+          stopTime
+          originalText
+          translateText
+        }
+    }
+  }
+`;
+
 export const GetPhrases = gql`
   query GetPhrases {
     phrases {

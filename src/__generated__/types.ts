@@ -48,6 +48,25 @@ export interface GetLessonsQuery {
   } | null >,
 };
 
+export interface GetLessonQueryVariables {
+  id?: string | null,
+};
+
+export interface GetLessonQuery {
+  lesson:  {
+    __typename: "Lesson",
+    id: string,
+    phrases:  Array< {
+      __typename: "Phrase",
+      id: string,
+      startTime: number | null,
+      stopTime: number | null,
+      originalText: string | null,
+      translateText: string | null,
+    } > | null,
+  } | null,
+};
+
 export interface GetPhrasesQuery {
   phrases:  Array< {
     __typename: "Phrase",

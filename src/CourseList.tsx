@@ -7,7 +7,7 @@ import { Preloader } from './Preloader';
 class CoursesQuery extends Query<GetCoursesQuery> {}
 
 interface CoursesProps {
-  onPickCourse: (courseId : string) => void;
+  onPickedCourse: (courseId : string) => void;
 }
 
 class CourseList extends React.Component<CoursesProps> {
@@ -36,7 +36,7 @@ class CourseList extends React.Component<CoursesProps> {
                 <tbody>
                   {
                     data.courses.map((course, key) => { return course ? 
-                        <tr key={key} onClick={() => this.props.onPickCourse(course.id)}>
+                        <tr key={key} onClick={() => this.props.onPickedCourse(course.id)}>
                           <td>{course.name}</td>
                           <td>Lorem Ipsum is simply dummy text of the printing.</td>
                           <td>10%</td>

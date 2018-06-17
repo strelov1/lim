@@ -4,9 +4,11 @@ import Course from './Course';
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import Lesson from './Lesson';
 
 interface AppState {
-    pickedCourse : string
+    pickedCourseId : string
+    pickedLessonId : string
 }
 
 export class App extends React.Component<{}, AppState> {
@@ -14,23 +16,33 @@ export class App extends React.Component<{}, AppState> {
     constructor(props : {}) {
         super(props);
         this.state = {
-            pickedCourse : "",
+            pickedCourseId : "",
+            pickedLessonId : "",
         }
     }
 
-    onPickCourse = (id : string) => {
-        this.setState({ pickedCourse : id });
-        console.log(id);
+    onPickedCourse = (id : string) => {
+        this.setState({ pickedCourseId : id });
+        console.log("onPickedCourse", id);
+    }
+
+    onPickedLesson = (id : string) => {
+        this.setState({ pickedLessonId : id });
+        console.log("onPickedLesson", id);
     }
 
     render() {
-        if (this.state.pickedCourse) {
-            return <Course courseId={this.state.pickedCourse} />
+        if (this.state.pickedLessonId) {
+            return <Lesson lessonId={this.state.pickedLessonId} />
         }   
-
+        if (this.state.pickedCourseId) {
+            return <Course
+            courseId={this.state.pickedCourseId} 
+            onPickedLesson={this.onPickedLesson}/>
+        }   
         return (
             <div>
-                <CourseList onPickCourse={this.onPickCourse} />
+                <CourseList onPickedCourse={this.onPickedCourse} />
             </div>
         );
     }
