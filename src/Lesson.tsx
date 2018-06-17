@@ -4,16 +4,17 @@ import { GetLesson as QUERY } from './queries';
 import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
 import { Player } from './Player';
+import { TextInput } from './TextInput';
 
 class LessonQuery extends Query<GetLessonQuery> {}
 
 export interface Phrase {
-  __typename: "Phrase",
-  id: string,
-  startTime: number | null,
-  stopTime: number | null,
-  originalText: string | null,
-  translateText: string | null,
+  __typename: "Phrase"
+  id: string
+  startTime: number | null
+  stopTime: number | null
+  originalText: string | null
+  translateText: string | null
 }
 
 interface LessonProps {
@@ -22,19 +23,27 @@ interface LessonProps {
 
 interface LessonState {
   currentPhrase : Phrase
+  inputValue : string
+  indexPhrase : number
 }
 
-class Lesson extends React.Component<LessonProps, LessonState> {
+export class Lesson extends React.Component<LessonProps, LessonState> {
   
   constructor(props : LessonProps) {
     super(props);
     this.state = {
         currentPhrase : null,
+        inputValue : "",
+        indexPhrase : 0
     }
   }
 
-  onPickedPhrase = (phrase : Phrase) => {
-    this.setState({ currentPhrase : phrase });
+  onPickedPhrase = (key : number, phrase : Phrase) => {
+    this.setState({
+       indexPhrase : key,
+       currentPhrase : phrase,
+       inputValue : phrase.originalText
+    });
     console.log("onPickedPhrase", phrase);
   }
 
@@ -43,49 +52,80 @@ class Lesson extends React.Component<LessonProps, LessonState> {
     console.log("onStopPhrase", phrase);
   }
 
+  onGuessed = () => {
+    console.log('GUESSED');
+    this.setState({
+      inputValue : null
+   });
+    this.nextPhrase();
+  }
+
+  nextPhrase = () => {
+    // const nextIndex = this.state.indexPhrase + 1;
+    // if (this.state.phrases[nextIndex]) {
+    //   this.onPickedPhrase(nextIndex, this.state.phrases[nextIndex])
+    // }
+  }
+
+  previousPhrase = () => {
+    //
+  }
+
+  phraseList(phrases : Phrase[]) {
+    return phrases.map((phrase, key) => {
+      return (
+        <tr key={key} onClick={() => this.onPickedPhrase(key, phrase)}>
+          <td>{phrase.originalText}</td>
+          <td>{phrase.translateText}</td>
+          <td>{phrase.startTime}</td>
+          <td>{phrase.stopTime}</td>
+        </tr>
+      );
+    });
+  }
+
   render() {
 
     return (
       <LessonQuery query={QUERY} variables={{ id : this.props.lessonId }}>
-        {({ loading, data, error }) => {
+        { ({ loading, data, error }) => {
           if (loading) return <div><Preloader/></div>;
           if (error) return <h1>ERROR</h1>;
           if (!data) return <div>no data</div>;
-
-          console.log(data);
-
+          
           return (
             <div className="pt-dark center">
-            <table className="pt-html-table pt-interactive">
-              <thead>
-                <tr>
-                  <th>Phrase</th>
-                  <th>Translate</th>
-                  <th>startTime</th>
-                  <th>stopTime</th>
-                </tr>
-              </thead>
-              <tbody>
-                { 
-                  data.lesson.phrases.map((phrase, key) => { return phrase ? 
-                      <tr key={key} onClick={() => this.onPickedPhrase(phrase)}>
-                        <td>{phrase.originalText}</td>
-                        <td>{phrase.translateText}</td>
-                        <td>{phrase.startTime}</td>
-                        <td>{phrase.stopTime}</td>
-                      </tr>
-                    : null })
-                }
-              </tbody>
-            </table>
+              <table className="pt-html-table pt-interactive">
+                <thead>
+                  <tr>
+                    <th>Phrase</th>
+                    <th>Translate</th>
+                    <th>startTime</th>
+                    <th>stopTime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  { this.phraseList(data.lesson.phrases) }
+                </tbody>
+              </table>
 
-            <hr/>
-            <Player 
-              src={process.env.PUBLIC_URL + '/test_data/0002/0.wav'} 
-              onStopPhrase={this.onStopPhrase}
-              phrase={this.state.currentPhrase}
-            />
+              <hr/>
 
+              <Player 
+                src={process.env.PUBLIC_URL + '/test_data/0002/0.wav'} 
+                onStopPhrase={this.onStopPhrase}
+                phrase={this.state.currentPhrase}
+              />
+
+              <hr/>
+
+              { this.state.inputValue ? 
+                <TextInput
+                  checkValue={this.state.inputValue}
+                  onGuessed={this.onGuessed}
+                /> 
+              : "" }
+          
           </div>
           );
         }}
@@ -93,5 +133,3 @@ class Lesson extends React.Component<LessonProps, LessonState> {
     );
   }
 }
-
-export default Lesson;

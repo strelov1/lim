@@ -4,7 +4,7 @@ import Course from './Course';
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import Lesson from './Lesson';
+import { Lesson } from './Lesson';
 
 interface AppState {
     pickedCourseId : string
