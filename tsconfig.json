@@ -11,12 +11,14 @@
     "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "strictNullChecks": false,
     "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
+    "typings",
     "build",
     "scripts",
     "acceptance-tests",

@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
 import { Player } from './Player';
 import { TextInput } from './TextInput';
+import { RouteComponentProps } from "react-router-dom";
 
 class LessonQuery extends Query<GetLessonQuery> {}
 
@@ -17,9 +18,11 @@ export interface Phrase {
   translateText: string | null
 }
 
-interface LessonProps {
+interface LessonRouterProps {
   lessonId : string
 }
+
+interface LessonProps extends RouteComponentProps<LessonRouterProps> {}
 
 interface LessonState {
   currentPhrase : Phrase
@@ -97,7 +100,7 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
   render() {
 
     return (
-      <LessonQuery query={QUERY} variables={{ id : this.props.lessonId }}>
+      <LessonQuery query={QUERY} variables={{ id : this.props.match.params.lessonId }}>
         { ({ loading, data, error }) => {
           if (loading) return <div><Preloader/></div>;
           if (error) return <h1>ERROR</h1>;

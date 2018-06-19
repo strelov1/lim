@@ -4,7 +4,7 @@ import Course from './Course';
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import { Lesson } from './Lesson';
+// import { Lesson } from './Lesson';
 
 interface AppState {
     pickedCourseId : string
@@ -32,9 +32,9 @@ export class App extends React.Component<{}, AppState> {
     }
 
     render() {
-        if (this.state.pickedLessonId) {
-            return <Lesson lessonId={this.state.pickedLessonId} />
-        }   
+        // if (this.state.pickedLessonId) {
+        //     return <Lesson lessonId={this.state.pickedLessonId} />
+        // }   
         if (this.state.pickedCourseId) {
             return <Course
             courseId={this.state.pickedCourseId} 
