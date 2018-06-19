@@ -1,0 +1,16 @@
+---
+
+plugins:
+  - babel
+
+env:
+  node: true
+  browser: true
+
+parser: typescript-eslint-parser
+
+extends:
+  - 'tslint-config-airbnb'
+
+rules:
+  no-console: 0
