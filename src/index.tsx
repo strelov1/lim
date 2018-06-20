@@ -7,8 +7,12 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 
-import { App } from './App';
+import { CourseList } from './CourseList';
 import { Lesson } from './Lesson';
+import Course from './Course';
+
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4466',
@@ -23,7 +27,8 @@ const WrappedApp = (
   <ApolloProvider client={client}>
     <Router>
       <div>
-        <Route exact path="/" component={App} />
+        <Route exact path="/" component={CourseList} />
+        <Route path="/course/:courseId" component={Course} />
         <Route path="/lesson/:lessonId" component={Lesson} />
       </div>
     </Router>

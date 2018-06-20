@@ -3,14 +3,19 @@ import { GetCoursesQuery } from './__generated__/types';
 import { GetCourses as QUERY } from './queries';
 import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
+import { RouteComponentProps } from "react-router-dom";
 
 class CoursesQuery extends Query<GetCoursesQuery> {}
 
-interface CoursesProps {
-  onPickedCourse: (courseId : string) => void;
-}
+interface CoursesRouterProps {}
 
-class CourseList extends React.Component<CoursesProps> {
+interface CoursesProps extends RouteComponentProps<CoursesRouterProps> {}
+
+export class CourseList extends React.Component<CoursesProps> {
+
+  onPickedCourse = (courseId : string) : void => {
+    this.props.history.push('/course/' + courseId)
+  }
 
   render() {
     return (
@@ -36,7 +41,7 @@ class CourseList extends React.Component<CoursesProps> {
                 <tbody>
                   {
                     data.courses.map((course, key) => { return course ? 
-                        <tr key={key} onClick={() => this.props.onPickedCourse(course.id)}>
+                        <tr key={key} onClick={() => this.onPickedCourse(course.id)}>
                           <td>{course.name}</td>
                           <td>Lorem Ipsum is simply dummy text of the printing.</td>
                           <td>10%</td>
@@ -52,5 +57,3 @@ class CourseList extends React.Component<CoursesProps> {
     );
   }
 }
-
-export default CourseList;

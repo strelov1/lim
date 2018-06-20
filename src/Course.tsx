@@ -3,19 +3,26 @@ import { GetCourseQuery } from './__generated__/types';
 import { GetCourse as QUERY } from './queries';
 import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
+import { RouteComponentProps } from "react-router-dom";
 
 class CourseQuery extends Query<GetCourseQuery> {}
 
-interface CourseProps {
+interface CourseRouterProps {
   courseId : string
-  onPickedLesson: (courseId : string) => void;
 }
+
+interface CourseProps extends RouteComponentProps<CourseRouterProps> {}
+
 
 class Course extends React.Component<CourseProps> {
 
+  onPickedLesson(lessonId : string) : void {
+    this.props.history.push('/lesson/' + lessonId)
+  }
+
   render() {
     return (
-      <CourseQuery query={QUERY} variables={{ id : this.props.courseId }}>
+      <CourseQuery query={QUERY} variables={{ id : this.props.match.params.courseId }}>
         {({ loading, data, error }) => {
           if (loading) return <div><Preloader/></div>;
           if (error) return <h1>ERROR</h1>;
@@ -37,7 +44,7 @@ class Course extends React.Component<CourseProps> {
               <tbody>
                 {
                   data.course.lessons && data.course.lessons.map((lesson, key) => { return lesson ? 
-                      <tr key={key} onClick={() => this.props.onPickedLesson(lesson.id)}>
+                      <tr key={key} onClick={() => this.onPickedLesson(lesson.id)}>
                         <td>{lesson.id}</td>
                         <td>10%</td>
                       </tr>
