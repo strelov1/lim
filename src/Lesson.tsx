@@ -6,6 +6,7 @@ import { Preloader } from './Preloader';
 import { Player } from './Player';
 import { TextInput } from './TextInput';
 import { RouteComponentProps } from "react-router-dom";
+import { Button } from "@blueprintjs/core";
 
 class LessonQuery extends Query<GetLessonQuery> {}
 
@@ -41,6 +42,10 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
         inputValue : "",
         indexPhrase : 0
     }
+  }
+
+  goBack = () : void => {
+    this.props.history.goBack();
   }
 
   onPickedPhrase = (key : number, phrase : Phrase) => {
@@ -100,49 +105,58 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
   render() {
 
     return (
-      <LessonQuery query={QUERY} variables={{ id : this.props.match.params.lessonId }}>
-        { ({ loading, data, error }) => {
-          if (loading) return <div><Preloader/></div>;
-          if (error) return <h1>ERROR</h1>;
-          if (!data) return <div>no data</div>;
-          
-          return (
-            <div className="pt-dark center">
-              <table className="pt-html-table pt-interactive">
-                <thead>
-                  <tr>
-                    <th>Phrase</th>
-                    <th>Translate</th>
-                    <th>startTime</th>
-                    <th>stopTime</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  { this.phraseList(data.lesson.phrases) }
-                </tbody>
-              </table>
+      <div className="pt-dark">
+          <Button
+            icon="undo"
+            onClick={this.goBack}
+            className="pt-dark">
+            Back
+          </Button>
+        <hr/>
+        <LessonQuery query={QUERY} variables={{ id : this.props.match.params.lessonId }}>
+          { ({ loading, data, error }) => {
+            if (loading) return <div><Preloader/></div>;
+            if (error) return <h1>ERROR</h1>;
+            if (!data) return <div>no data</div>;
+            
+            return (
+              <div className="center">
+                <table className="pt-html-table pt-interactive">
+                  <thead>
+                    <tr>
+                      <th>Phrase</th>
+                      <th>Translate</th>
+                      <th>startTime</th>
+                      <th>stopTime</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    { this.phraseList(data.lesson.phrases) }
+                  </tbody>
+                </table>
 
-              <hr/>
+                <hr/>
 
-              <Player 
-                src={process.env.PUBLIC_URL + '/test_data/0002/0.wav'} 
-                onStopPhrase={this.onStopPhrase}
-                phrase={this.state.currentPhrase}
-              />
+                <Player 
+                  src={process.env.PUBLIC_URL + '/test_data/0002/0.wav'} 
+                  onStopPhrase={this.onStopPhrase}
+                  phrase={this.state.currentPhrase}
+                />
 
-              <hr/>
+                <hr/>
 
-              { this.state.inputValue ? 
-                <TextInput
-                  checkValue={this.state.inputValue}
-                  onGuessed={this.onGuessed}
-                /> 
-              : "" }
-          
-          </div>
-          );
-        }}
-      </LessonQuery>
+                { this.state.inputValue ? 
+                  <TextInput
+                    checkValue={this.state.inputValue}
+                    onGuessed={this.onGuessed}
+                  /> 
+                : "" }
+            
+            </div>
+            );
+          }}
+        </LessonQuery>
+      </div>
     );
   }
 }
