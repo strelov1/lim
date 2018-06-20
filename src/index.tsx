@@ -9,7 +9,7 @@ import { ApolloProvider } from 'react-apollo';
 
 import { CourseList } from './CourseList';
 import { Lesson } from './Lesson';
-import Course from './Course';
+import { Course } from './Course';
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";

@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { RouteComponentProps } from "react-router-dom";
+
 import { GetCourseQuery } from './__generated__/types';
 import { GetCourse as QUERY } from './queries';
 import { Query } from 'react-apollo';
-import { Preloader } from './Preloader';
-import { RouteComponentProps } from "react-router-dom";
+
 import { Button, Card, Elevation } from "@blueprintjs/core";
+
+import { Preloader } from './Preloader';
 
 class CourseQuery extends Query<GetCourseQuery> {}
 
@@ -14,8 +17,7 @@ interface CourseRouterProps {
 
 interface CourseProps extends RouteComponentProps<CourseRouterProps> {}
 
-
-class Course extends React.Component<CourseProps> {
+export class Course extends React.Component<CourseProps> {
 
   onPickedLesson(lessonId : string) : void {
     this.props.history.push('/lesson/' + lessonId);
@@ -65,5 +67,3 @@ class Course extends React.Component<CourseProps> {
     );
   }
 }
-
-export default Course;

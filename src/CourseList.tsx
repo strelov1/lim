@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { RouteComponentProps } from "react-router-dom";
+
+import { Query } from 'react-apollo';
 import { GetCoursesQuery } from './__generated__/types';
 import { GetCourses as QUERY } from './queries';
-import { Query } from 'react-apollo';
+
+import { Button, Card, Elevation, Intent } from "@blueprintjs/core";
+
 import { Preloader } from './Preloader';
-import { RouteComponentProps } from "react-router-dom";
-import { Card, Elevation } from "@blueprintjs/core";
 
 
 class CoursesQuery extends Query<GetCoursesQuery> {}
@@ -22,6 +25,8 @@ export class CourseList extends React.Component<CoursesProps> {
   render() {
     return (
       <div className="pt-dark center">
+        <Button icon="add" intent={Intent.SUCCESS}>Add</Button>
+        <hr/>
         <CoursesQuery query={QUERY}>
           {({ loading, data, error }) => {
             if (loading) return <div><Preloader/></div>;

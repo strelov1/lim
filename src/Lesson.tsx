@@ -1,12 +1,15 @@
 import * as React from 'react';
+import { RouteComponentProps } from "react-router-dom";
+
+import { Query } from 'react-apollo';
 import { GetLessonQuery } from './__generated__/types';
 import { GetLesson as QUERY } from './queries';
-import { Query } from 'react-apollo';
-import { Preloader } from './Preloader';
-import { Player } from './Player';
-import { TextInput } from './TextInput';
-import { RouteComponentProps } from "react-router-dom";
+
 import { Button, Card, Elevation } from "@blueprintjs/core";
+
+import { Preloader } from './Preloader';
+import { TextInput } from './TextInput';
+import { Player } from './Player';
 
 class LessonQuery extends Query<GetLessonQuery> {}
 
@@ -109,8 +112,7 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
       <div className="pt-dark center">
           <Button
             icon="undo"
-            onClick={this.goBack}
-            className="pt-dark">
+            onClick={this.goBack}>
             Back
           </Button>
         <hr/>
