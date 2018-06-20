@@ -36,6 +36,17 @@ export interface CreateCourseMutation {
   },
 };
 
+export interface DeleteCourseMutationVariables {
+  id: string,
+};
+
+export interface DeleteCourseMutation {
+  deleteCourse:  {
+    __typename: "Course",
+    id: string,
+  } | null,
+};
+
 export interface GetLessonsQuery {
   lessons:  Array< {
     __typename: "Lesson",

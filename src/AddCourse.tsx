@@ -67,7 +67,8 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
                   icon="add"
                   intent={Intent.SUCCESS}
                   onClick={() => {
-                    addCourse({ variables: { name: this.state.courseName } }).then(this.goBack);
+                    addCourse({ variables: { name: this.state.courseName } })
+                      .then(this.goBack);
                   }}
                 >
                   Add

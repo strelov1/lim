@@ -33,6 +33,16 @@ export const CreateCourse = gql`
   }
 `;
 
+export const DeleteCourse = gql`
+  mutation DeleteCourse($id : ID!) {
+    deleteCourse(where: {
+      id: $id
+    }) {
+      id
+    }
+  }
+`;
+
 export const GetLessons = gql`
   query GetLessons {
     lessons {
