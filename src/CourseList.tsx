@@ -4,6 +4,8 @@ import { GetCourses as QUERY } from './queries';
 import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
 import { RouteComponentProps } from "react-router-dom";
+import { Card, Elevation } from "@blueprintjs/core";
+
 
 class CoursesQuery extends Query<GetCoursesQuery> {}
 
@@ -19,7 +21,7 @@ export class CourseList extends React.Component<CoursesProps> {
 
   render() {
     return (
-      <div>
+      <div className="pt-dark center">
         <CoursesQuery query={QUERY}>
           {({ loading, data, error }) => {
             if (loading) return <div><Preloader/></div>;
@@ -30,27 +32,17 @@ export class CourseList extends React.Component<CoursesProps> {
             console.log(data);
 
             return (
-              <div className="pt-dark center">
-                <table className="pt-html-table pt-interactive">
-                  <thead>
-                    <tr>
-                      <th>Course</th>
-                      <th>Description</th>
-                      <th>Progrss</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      data.courses.map((course, key) => { return course ? 
-                          <tr key={key} onClick={() => this.onPickedCourse(course.id)}>
-                            <td>{course.name}</td>
-                            <td>Lorem Ipsum is simply dummy text of the printing.</td>
-                            <td>10%</td>
-                          </tr>
-                        : null })
-                    }
-                  </tbody>
-                </table>
+              <div>
+                {
+                  data.courses.map((course, key) => { return course ? 
+                    <div key={key}>
+                      <Card interactive={true} elevation={Elevation.TWO} onClick={() => this.onPickedCourse(course.id)}>
+                        <h5>{course.name}</h5>
+                        <p>Card content</p>
+                      </Card>
+                    </div>
+                    : null })
+                }
               </div>
             );
           }}

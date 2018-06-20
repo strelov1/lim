@@ -4,7 +4,7 @@ import { GetCourse as QUERY } from './queries';
 import { Query } from 'react-apollo';
 import { Preloader } from './Preloader';
 import { RouteComponentProps } from "react-router-dom";
-import { Button } from "@blueprintjs/core";
+import { Button, Card, Elevation } from "@blueprintjs/core";
 
 class CourseQuery extends Query<GetCourseQuery> {}
 
@@ -47,25 +47,17 @@ class Course extends React.Component<CourseProps> {
 
             return (
               <div className="pt-dark center">
-              <table className="pt-html-table pt-interactive">
-                <thead>
-                  <tr>
-                    <th>Lesson</th>
-                    <th>Progrss</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    data.course.lessons && data.course.lessons.map((lesson, key) => { return lesson ? 
-                        <tr key={key} onClick={() => this.onPickedLesson(lesson.id)}>
-                          <td>{lesson.id}</td>
-                          <td>10%</td>
-                        </tr>
-                      : null })
-                  }
-                </tbody>
-              </table>
-            </div>
+                {
+                  data.course.lessons && data.course.lessons.map((lesson, key) => { return lesson ? 
+                    <div key={key}>
+                      <Card interactive={true} elevation={Elevation.FOUR} onClick={() => this.onPickedLesson(lesson.id)}>
+                        <h5>{lesson.id}</h5>
+                        <p>Card content</p>
+                      </Card>
+                    </div>
+                    : null })
+                }
+              </div>
             );
           }}
         </CourseQuery>

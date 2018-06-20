@@ -6,7 +6,7 @@ import { Preloader } from './Preloader';
 import { Player } from './Player';
 import { TextInput } from './TextInput';
 import { RouteComponentProps } from "react-router-dom";
-import { Button } from "@blueprintjs/core";
+import { Button, Card, Elevation } from "@blueprintjs/core";
 
 class LessonQuery extends Query<GetLessonQuery> {}
 
@@ -92,12 +92,13 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
     
     return phrases.map((phrase, key) => {
       return (
-        <tr key={key} onClick={() => this.onPickedPhrase(key, phrase)}>
-          <td>{phrase.originalText}</td>
-          <td>{phrase.translateText}</td>
-          <td>{phrase.startTime}</td>
-          <td>{phrase.stopTime}</td>
-        </tr>
+        <div key={key}>
+          <Card interactive={true} elevation={Elevation.TWO} onClick={() => this.onPickedPhrase(key, phrase)}>
+            <h5>{phrase.originalText}</h5>
+            <p>{phrase.translateText}</p>
+          </Card>
+          <br/>
+        </div>
       );
     });
   }
@@ -105,7 +106,7 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
   render() {
 
     return (
-      <div className="pt-dark">
+      <div className="pt-dark center">
           <Button
             icon="undo"
             onClick={this.goBack}
@@ -120,22 +121,11 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
             if (!data) return <div>no data</div>;
             
             return (
-              <div className="center">
-                <table className="pt-html-table pt-interactive">
-                  <thead>
-                    <tr>
-                      <th>Phrase</th>
-                      <th>Translate</th>
-                      <th>startTime</th>
-                      <th>stopTime</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    { this.phraseList(data.lesson.phrases) }
-                  </tbody>
-                </table>
+              <div>
+              
+                { this.phraseList(data.lesson.phrases) }
 
-                <hr/>
+                <br/>
 
                 <Player 
                   src={process.env.PUBLIC_URL + '/test_data/0002/0.wav'} 
@@ -143,7 +133,7 @@ export class Lesson extends React.Component<LessonProps, LessonState> {
                   phrase={this.state.currentPhrase}
                 />
 
-                <hr/>
+                <br/>
 
                 { this.state.inputValue ? 
                   <TextInput
