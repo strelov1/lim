@@ -21,16 +21,19 @@ export interface GetCourseQuery {
     lessons:  Array< {
       __typename: "Lesson",
       id: string,
-      phrases:  Array< {
-        __typename: "Phrase",
-        id: string,
-        startTime: number | null,
-        stopTime: number | null,
-        originalText: string | null,
-        translateText: string | null,
-      } > | null,
     } > | null,
   } | null,
+};
+
+export interface CreateCourseMutationVariables {
+  name: string,
+};
+
+export interface CreateCourseMutation {
+  createCourse:  {
+    __typename: "Course",
+    id: string,
+  },
 };
 
 export interface GetLessonsQuery {

@@ -19,13 +19,17 @@ interface CoursesProps extends RouteComponentProps<CoursesRouterProps> {}
 export class CourseList extends React.Component<CoursesProps> {
 
   onPickedCourse = (courseId : string) : void => {
-    this.props.history.push('/course/' + courseId)
+    this.props.history.push('/course/' + courseId);
+  }
+  
+  onAddCourse = () : void => {
+    this.props.history.push('/create/course');
   }
 
   render() {
     return (
       <div className="pt-dark center">
-        <Button icon="add" intent={Intent.SUCCESS}>Add</Button>
+        <Button icon="add" intent={Intent.SUCCESS} onClick={this.onAddCourse}>Add</Button>
         <hr/>
         <CoursesQuery query={QUERY}>
           {({ loading, data, error }) => {

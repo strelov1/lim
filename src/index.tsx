@@ -10,6 +10,7 @@ import { ApolloProvider } from 'react-apollo';
 import { CourseList } from './CourseList';
 import { Lesson } from './Lesson';
 import { Course } from './Course';
+import { AddCourse } from './AddCourse';
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
@@ -30,6 +31,7 @@ const WrappedApp = (
         <Route exact path="/" component={CourseList} />
         <Route path="/course/:courseId" component={Course} />
         <Route path="/lesson/:lessonId" component={Lesson} />
+        <Route path="/create/course" component={AddCourse} />
       </div>
     </Router>
   </ApolloProvider>

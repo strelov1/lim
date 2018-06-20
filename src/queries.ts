@@ -18,14 +18,17 @@ export const GetCourse = gql`
       name
       lessons {
         id
-        phrases {
-          id
-          startTime
-          stopTime
-          originalText
-          translateText
-        }
       }
+    }
+  }
+`;
+
+export const CreateCourse = gql`
+  mutation CreateCourse($name : String!) {
+    createCourse(data: {
+      name : $name
+    }) {
+      id
     }
   }
 `;
