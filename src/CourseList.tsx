@@ -49,6 +49,7 @@ export class CourseList extends React.Component<CoursesProps> {
                         <h5>{course.name}</h5>
                         <p>Card content</p>
                       </Card>
+                      <br/>
                     </div>
                     : null })
                 }
