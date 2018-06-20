@@ -5,6 +5,7 @@ export const GetCourses = gql`
     courses {
         id
         name
+        description
       }
   }
 `;
@@ -16,6 +17,7 @@ export const GetCourse = gql`
     }) {
       id
       name
+      description
       lessons {
         id
       }
@@ -24,11 +26,30 @@ export const GetCourse = gql`
 `;
 
 export const CreateCourse = gql`
-  mutation CreateCourse($name : String!) {
+  mutation CreateCourse($name : String!, $description : String) {
     createCourse(data: {
       name : $name
+      description : $description
     }) {
       id
+    }
+  }
+`;
+
+export const UpdateCourse = gql`
+  mutation UpdateCourse($id : ID, $name : String!, $description : String) {
+    updateCourse(
+      data: {
+        name: $name
+        description: $description
+      }
+      where: {
+        id: $id
+      }
+    ) {
+      id
+      name
+      description
     }
   }
 `;

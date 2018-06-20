@@ -6,6 +6,7 @@ export interface GetCoursesQuery {
     __typename: "Course",
     id: string,
     name: string | null,
+    description: string | null,
   } | null >,
 };
 
@@ -18,6 +19,7 @@ export interface GetCourseQuery {
     __typename: "Course",
     id: string,
     name: string | null,
+    description: string | null,
     lessons:  Array< {
       __typename: "Lesson",
       id: string,
@@ -27,6 +29,7 @@ export interface GetCourseQuery {
 
 export interface CreateCourseMutationVariables {
   name: string,
+  description?: string | null,
 };
 
 export interface CreateCourseMutation {
@@ -34,6 +37,21 @@ export interface CreateCourseMutation {
     __typename: "Course",
     id: string,
   },
+};
+
+export interface UpdateCourseMutationVariables {
+  id?: string | null,
+  name: string,
+  description?: string | null,
+};
+
+export interface UpdateCourseMutation {
+  updateCourse:  {
+    __typename: "Course",
+    id: string,
+    name: string | null,
+    description: string | null,
+  } | null,
 };
 
 export interface DeleteCourseMutationVariables {

@@ -27,6 +27,10 @@ export class CourseList extends React.Component<CoursesProps> {
     this.props.history.push('/create/course');
   }
 
+  handleEditourse = (courseId : string) : void => {
+    this.props.history.push('/edit/course/' + courseId);
+  }
+
   render() {
     return (
       <div className="pt-dark center">
@@ -39,8 +43,6 @@ export class CourseList extends React.Component<CoursesProps> {
             if (!data) return <div>no data</div>;
             if (!data.courses) return <div>no data</div>;
           
-            console.log(data);
-
             return (
               <div>
                 {
@@ -48,16 +50,24 @@ export class CourseList extends React.Component<CoursesProps> {
                     <div key={key}>
                       <Card interactive={true} elevation={Elevation.TWO}>
                         <h5 onClick={() => this.handlePickedCourse(course.id)}>{course.name}</h5>
-                        <p>Card content</p>
-                        <CourseMutation mutation={MUTATION}>
+                        <p>{ course.description }</p>
+                        <CourseMutation mutation={ MUTATION }
+                         refetchQueries={[{ query: QUERY }]}
+                        >
                           {(deleteCourse, {}) => (
                             <div>
-                              <Button onClick={() => { 
-                                deleteCourse({ variables: { id : course.id } })
-                                  .then(refetch);
-                               }}>
-                                Delete
-                              </Button>
+                              <div className="pt-button-group pt-minimal">
+                                <Button
+                                  icon="edit" intent={Intent.PRIMARY} 
+                                  onClick={() => this.handleEditourse(course.id)}>
+                                  Edit
+                                </Button>
+                                <Button
+                                  icon="trash" intent={Intent.DANGER} 
+                                  onClick={() => deleteCourse({ variables: { id : course.id } }).then(refetch)}>
+                                  Delete
+                                </Button>
+                              </div>
                             </div>
                           )}
                         </CourseMutation>

@@ -8,11 +8,14 @@ type Phrase {
 
 type Lesson {
   id: ID! @unique
+  name: String
+  description: String
   phrases: [Phrase!]!
 }
 
 type Course { 
   id: ID! @unique
   name: String
+  description: String
   lessons: [Lesson!]!
 }

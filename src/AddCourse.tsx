@@ -3,9 +3,9 @@ import { RouteComponentProps } from "react-router-dom";
 
 import { Mutation } from 'react-apollo';
 import { CreateCourseMutation } from './__generated__/types';
-import { CreateCourse as MUTATION } from './queries';
+import { CreateCourse as MUTATION, GetCourses as QUERY } from './queries';
 
-import { Button, FormGroup, Intent } from "@blueprintjs/core";
+import { Button, FormGroup, TextArea, Intent } from "@blueprintjs/core";
 
 class CourseMutation extends Mutation<CreateCourseMutation> {}
 
@@ -14,7 +14,8 @@ interface AddCourseRouterProps {}
 interface AddCourseProps extends RouteComponentProps<AddCourseRouterProps> {}
 
 interface AddCoursState {
-  courseName : string
+  name : string
+  description : string
 }
 
 export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
@@ -22,7 +23,8 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
   constructor(props : AddCourseProps) {
     super(props);
     this.state = {
-      courseName : ""
+      name : "",
+      description : ""
     }
   }
 
@@ -31,7 +33,11 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
   }
 
   onChangeName = (event : React.FormEvent<HTMLInputElement>) : void => {
-    this.setState({ courseName : event.currentTarget.value });
+    this.setState({ name : event.currentTarget.value });
+  }
+
+  onChangeDescription = (event : React.FormEvent<HTMLTextAreaElement>) : void => {
+    this.setState({ description : event.currentTarget.value });
   }
 
   render() {
@@ -46,7 +52,9 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
         <hr/>
         <div>
 
-        <CourseMutation mutation={MUTATION}>
+        <CourseMutation mutation={ MUTATION }
+          refetchQueries={[{ query: QUERY }]}
+        >
           {(addCourse, { data }) => (
             <div>
               <FormGroup
@@ -59,21 +67,32 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
                   id="course-name"
                   type="text"
                   onChange={ this.onChangeName }
-                  value={ this.state.courseName }
+                  value={ this.state.name }
                 />
-                <br/>
-                <br/>
+              </FormGroup>
+              <FormGroup
+                label="Course description"
+                labelFor="course-description"
+              >
+                <TextArea
+                    className="pt-fill"
+                    onChange={ this.onChangeDescription }
+                    defaultValue={ this.state.description }
+                />
+              </FormGroup>
                 <Button
                   icon="add"
                   intent={Intent.SUCCESS}
                   onClick={() => {
-                    addCourse({ variables: { name: this.state.courseName } })
+                    addCourse({ variables: { 
+                      name: this.state.name, 
+                      description : this.state.description 
+                    } })
                       .then(this.goBack);
                   }}
                 >
                   Add
                 </Button>
-              </FormGroup>
             </div>
           )}
         </CourseMutation>
