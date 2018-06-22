@@ -13,11 +13,15 @@ import { Course } from './Course';
 import { AddCourse } from './AddCourse';
 import { EditCourse } from './EditCourse';
 
+import registerServiceWorker from './registerServiceWorker';
+
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4466',
+  uri: process.env.NODE_ENV === 'production' ?
+  'https://eu1.prisma.sh/ilya-strelov-74971b/lim/dev' :
+  'http://localhost:4466',
 });
 
 const client = new ApolloClient({
@@ -40,3 +44,4 @@ const wrappedApp = (
 );
 
 render(wrappedApp, document.getElementById('root'));
+registerServiceWorker();

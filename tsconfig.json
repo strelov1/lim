@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "/build/dist",
+    "baseUrl": ".",
+    "outDir": "/dist",
     "module": "commonjs",
     "target": "es2015",
     "lib": ["es2015", "dom", "esnext.asynciterable"],
