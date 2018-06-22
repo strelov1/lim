@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
+    "predeploy": "react-scripts-ts build",
     "deploy": "gh-pages -d build",
     "schema": "apollo-codegen introspect-schema http://localhost:4466 --output ./src/schema.json",
     "types": "apollo-codegen generate ./src/**/queries.ts --addTypename --schema ./src/schema.json --target typescript --output ./src/__generated__/types.ts"
