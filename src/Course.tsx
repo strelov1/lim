@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from 'react-router-dom';
 
 import { GetCourseQuery } from './__generated__/types';
-import { GetCourse as QUERY } from './queries';
+import { getCourse as QUERY } from './queries';
 import { Query } from 'react-apollo';
 
-import { Button, Card, Elevation } from "@blueprintjs/core";
+import { Button, Card } from '@blueprintjs/core';
 
-import { Preloader } from './Preloader';
+import { preloader as Preloader } from './Preloader';
 
 class CourseQuery extends Query<GetCourseQuery> {}
 
 interface CourseRouterProps {
-  courseId : string
+  courseId : string;
 }
 
 interface CourseProps extends RouteComponentProps<CourseRouterProps> {}
@@ -33,31 +33,35 @@ export class Course extends React.Component<CourseProps> {
         <Button
           icon="undo"
           onClick={this.goBack}
-          className="pt-dark">
+          className="pt-dark"
+        >
           Back
         </Button>
         <hr/>
-        <CourseQuery query={QUERY} variables={{ id : this.props.match.params.courseId }}>
+        <CourseQuery
+          query={QUERY}
+          variables={{ id : this.props.match.params.courseId }}
+        >
           {({ loading, data, error }) => {
             if (loading) return <div><Preloader/></div>;
             if (error) return <h1>ERROR</h1>;
             if (!data) return <div>no data</div>;
             if (!data.course) return <div>no data</div>;
             if (!data.course.lessons) return <div>no data</div>;
-        
-            console.log(data.course && data.course.lessons);
 
             return (
               <div className="pt-dark center">
                 {
-                  data.course.lessons && data.course.lessons.map((lesson, key) => { return lesson ? 
-                    <div key={key}>
-                      <Card interactive={true} elevation={Elevation.FOUR} onClick={() => this.onPickedLesson(lesson.id)}>
-                        <h5>{lesson.id}</h5>
-                        <p>Card content</p>
-                      </Card>
-                    </div>
-                    : null })
+                  data.course.lessons && data.course.lessons.map((lesson, key) => {
+                    return (
+                      <div key={key}>
+                        <Card interactive={true} onClick={() => this.onPickedLesson(lesson.id)}>
+                          <h5>{lesson.id}</h5>
+                          <p>Card content</p>
+                        </Card>
+                      </div>
+                    );
+                  })
                 }
               </div>
             );

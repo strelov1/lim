@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
@@ -13,8 +13,8 @@ import { Course } from './Course';
 import { AddCourse } from './AddCourse';
 import { EditCourse } from './EditCourse';
 
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import '@blueprintjs/core/lib/css/blueprint.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4466',
@@ -25,11 +25,11 @@ const client = new ApolloClient({
   link: httpLink,
 });
 
-const WrappedApp = (
+const wrappedApp = (
   <ApolloProvider client={client}>
     <Router>
       <div>
-        <Route exact path="/" component={CourseList} />
+        <Route exact={true} path="/" component={CourseList} />
         <Route path="/course/:courseId" component={Course} />
         <Route path="/create/course" component={AddCourse} />
         <Route path="/edit/course/:courseId" component={EditCourse} />
@@ -39,4 +39,4 @@ const WrappedApp = (
   </ApolloProvider>
 );
 
-render(WrappedApp, document.getElementById('root'));
+render(wrappedApp, document.getElementById('root'));

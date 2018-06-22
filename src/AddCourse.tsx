@@ -1,21 +1,21 @@
 import * as React from 'react';
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Mutation } from 'react-apollo';
 import { CreateCourseMutation } from './__generated__/types';
-import { CreateCourse as MUTATION, GetCourses as QUERY } from './queries';
+import { createCourse as MUTATION, getCourses as QUERY } from './queries';
 
-import { Button, FormGroup, TextArea, Intent } from "@blueprintjs/core";
+import { Button, FormGroup, TextArea, Intent } from '@blueprintjs/core';
 
 class CourseMutation extends Mutation<CreateCourseMutation> {}
 
 interface AddCourseRouterProps {}
-  
+
 interface AddCourseProps extends RouteComponentProps<AddCourseRouterProps> {}
 
 interface AddCoursState {
-  name : string
-  description : string
+  name : string;
+  description : string;
 }
 
 export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
@@ -23,9 +23,9 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
   constructor(props : AddCourseProps) {
     super(props);
     this.state = {
-      name : "",
-      description : ""
-    }
+      name : '',
+      description : '',
+    };
   }
 
   goBack = () : void => {
@@ -52,9 +52,7 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
         <hr/>
         <div>
 
-        <CourseMutation mutation={ MUTATION }
-          refetchQueries={[{ query: QUERY }]}
-        >
+        <CourseMutation mutation={MUTATION} refetchQueries={[{ query: QUERY }]} >
           {(addCourse, { data }) => (
             <div>
               <FormGroup
@@ -66,8 +64,8 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
                   className="pt-input"
                   id="course-name"
                   type="text"
-                  onChange={ this.onChangeName }
-                  value={ this.state.name }
+                  onChange={this.onChangeName}
+                  value={this.state.name}
                 />
               </FormGroup>
               <FormGroup
@@ -76,17 +74,17 @@ export class AddCourse extends React.Component<AddCourseProps, AddCoursState> {
               >
                 <TextArea
                     className="pt-fill"
-                    onChange={ this.onChangeDescription }
-                    defaultValue={ this.state.description }
+                    onChange={this.onChangeDescription}
+                    defaultValue={this.state.description}
                 />
               </FormGroup>
                 <Button
                   icon="add"
                   intent={Intent.SUCCESS}
                   onClick={() => {
-                    addCourse({ variables: { 
-                      name: this.state.name, 
-                      description : this.state.description 
+                    addCourse({ variables: {
+                      name: this.state.name,
+                      description : this.state.description,
                     } })
                       .then(this.goBack);
                   }}

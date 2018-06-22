@@ -1,6 +1,6 @@
-import gql from 'graphql-tag';
+import graphqlTag from 'graphql-tag';
 
-export const GetCourses = gql`
+export const getCourses = graphqlTag`
   query GetCourses {
     courses {
         id
@@ -10,7 +10,7 @@ export const GetCourses = gql`
   }
 `;
 
-export const GetCourse = gql`
+export const getCourse = graphqlTag`
   query GetCourse($id : ID) {
     course(where: {
       id : $id
@@ -25,7 +25,7 @@ export const GetCourse = gql`
   }
 `;
 
-export const CreateCourse = gql`
+export const createCourse = graphqlTag`
   mutation CreateCourse($name : String!, $description : String) {
     createCourse(data: {
       name : $name
@@ -36,7 +36,7 @@ export const CreateCourse = gql`
   }
 `;
 
-export const UpdateCourse = gql`
+export const updateCourse = graphqlTag`
   mutation UpdateCourse($id : ID, $name : String!, $description : String) {
     updateCourse(
       data: {
@@ -54,7 +54,7 @@ export const UpdateCourse = gql`
   }
 `;
 
-export const DeleteCourse = gql`
+export const deleteCourse = graphqlTag`
   mutation DeleteCourse($id : ID!) {
     deleteCourse(where: {
       id: $id
@@ -64,7 +64,7 @@ export const DeleteCourse = gql`
   }
 `;
 
-export const GetLessons = gql`
+export const getLessons = graphqlTag`
   query GetLessons {
     lessons {
       id
@@ -79,7 +79,7 @@ export const GetLessons = gql`
   }
 `;
 
-export const GetLesson = gql`
+export const getLesson = graphqlTag`
   query GetLesson($id : ID) {
     lesson(where: {
       id : $id
@@ -96,7 +96,7 @@ export const GetLesson = gql`
   }
 `;
 
-export const GetPhrases = gql`
+export const getPhrases = graphqlTag`
   query GetPhrases {
     phrases {
       id
@@ -108,7 +108,7 @@ export const GetPhrases = gql`
   }
 `;
 
-export const GetPhrase = gql`
+export const getPhrase = graphqlTag`
   query GetPhrase($id : ID) {
     phrase(where: {
       id : $id

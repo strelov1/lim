@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from 'react-router-dom';
 
 import { Query, Mutation } from 'react-apollo';
 import { GetCoursesQuery, DeleteCourseMutation } from './__generated__/types';
-import { GetCourses as QUERY, DeleteCourse as MUTATION } from './queries';
+import { getCourses as QUERY, deleteCourse as MUTATION } from './queries';
 
-import { Button, Card, Elevation, Intent } from "@blueprintjs/core";
+import { Button, Card, Elevation, Intent } from '@blueprintjs/core';
 
-import { Preloader } from './Preloader';
+import { preloader as Preloader } from './Preloader';
 
 class CourseMutation extends Mutation<DeleteCourseMutation> {}
 
@@ -22,13 +22,43 @@ export class CourseList extends React.Component<CoursesProps> {
   handlePickedCourse = (courseId : string) : void => {
     this.props.history.push('/course/' + courseId);
   }
-  
+
   handleAddCourse = () : void => {
     this.props.history.push('/create/course');
   }
 
   handleEditourse = (courseId : string) : void => {
     this.props.history.push('/edit/course/' + courseId);
+  }
+
+  private courseMutationRender(courseId) {
+    return (
+        <CourseMutation
+          mutation={MUTATION}
+          refetchQueries={[{ query: QUERY }]}
+        >
+          {(deleteCourse, {}) => (
+            <div>
+              <div className="pt-button-group pt-minimal">
+                <Button
+                  icon="edit"
+                  intent={Intent.PRIMARY}
+                  onClick={() => this.handleEditourse(courseId)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  icon="trash"
+                  intent={Intent.DANGER}
+                  onClick={() => deleteCourse({ variables: { id : courseId } })}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          )}
+        </CourseMutation>
+    );
   }
 
   render() {
@@ -42,39 +72,22 @@ export class CourseList extends React.Component<CoursesProps> {
             if (error) return <h1>ERROR</h1>;
             if (!data) return <div>no data</div>;
             if (!data.courses) return <div>no data</div>;
-          
+
             return (
               <div>
                 {
-                  data.courses.map((course, key) => { return course ? 
-                    <div key={key}>
-                      <Card interactive={true} elevation={Elevation.TWO}>
-                        <h5 onClick={() => this.handlePickedCourse(course.id)}>{course.name}</h5>
-                        <p>{ course.description }</p>
-                        <CourseMutation mutation={ MUTATION }
-                         refetchQueries={[{ query: QUERY }]}
-                        >
-                          {(deleteCourse, {}) => (
-                            <div>
-                              <div className="pt-button-group pt-minimal">
-                                <Button
-                                  icon="edit" intent={Intent.PRIMARY} 
-                                  onClick={() => this.handleEditourse(course.id)}>
-                                  Edit
-                                </Button>
-                                <Button
-                                  icon="trash" intent={Intent.DANGER} 
-                                  onClick={() => deleteCourse({ variables: { id : course.id } }).then(refetch)}>
-                                  Delete
-                                </Button>
-                              </div>
-                            </div>
-                          )}
-                        </CourseMutation>
-                      </Card>
-                      <br/>
-                    </div>
-                    : null })
+                  data.courses.map((course, key) => {
+                    return (
+                      <div key={key}>
+                        <Card interactive={true} elevation={Elevation.TWO}>
+                          <h5 onClick={() => this.handlePickedCourse(course.id)}>{course.name}</h5>
+                          <p>{course.description}</p>
+                          {this.courseMutationRender(course.id)}
+                        </Card>
+                        <br/>
+                      </div>
+                    );
+                  })
                 }
               </div>
             );

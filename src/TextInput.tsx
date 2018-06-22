@@ -1,28 +1,28 @@
-import * as React from "react";
-import { TextArea, Intent } from "@blueprintjs/core";
+import * as React from 'react';
+import { TextArea, Intent } from '@blueprintjs/core';
 
 interface InputProps {
-  checkValue: string
+  checkValue: string;
   onGuessed: () => void;
 }
 
 interface InputState {
-  value: string
-  checkValue : string
-  guessWords : string[]
-  intnet : Intent
+  value: string;
+  checkValue : string;
+  guessWords : string[];
+  intnet : Intent;
 }
 
 export class TextInput extends React.Component<InputProps, InputState> {
 
   constructor(props : InputProps) {
-      super(props);
-      this.state = {
-        value : "",
-        checkValue : this.props.checkValue,
-        guessWords : [],
-        intnet : Intent.NONE
-      }
+    super(props);
+    this.state = {
+      value : '',
+      checkValue : this.props.checkValue,
+      guessWords : [],
+      intnet : Intent.NONE,
+    };
   }
 
   checkInput = (word : string , input : string) : boolean => {
@@ -31,30 +31,30 @@ export class TextInput extends React.Component<InputProps, InputState> {
 
   cleanInput = (value : string) : string => {
     let checkValue = value.trim();
-    for (let i = 0; i < this.state.guessWords.length; i++) {
-      checkValue = checkValue.replace(this.state.guessWords[i], "");
+    for (let i = 0; i < this.state.guessWords.length; i += 1) {
+      checkValue = checkValue.replace(this.state.guessWords[i], '');
     }
     return checkValue.trim();
   }
 
   onChange = (event : React.FormEvent<HTMLTextAreaElement>) : void => {
     const value = event.currentTarget.value;
-    
-    const words = this.state.checkValue.toLowerCase().split(" ");
+
+    const words = this.state.checkValue.toLowerCase().split(' ');
     const word = words.shift();
     const checkValue = this.cleanInput(value);
 
     if (checkValue && this.checkInput(word, checkValue))  {
-        this.state.guessWords.push(word) ;
-        this.setState({
-          guessWords : this.state.guessWords,
-          checkValue : words.join(" "), 
-          value : this.state.value + word + " ",
-          intnet : Intent.NONE
-        });
+      this.state.guessWords.push(word) ;
+      this.setState({
+        guessWords : this.state.guessWords,
+        checkValue : words.join(' '),
+        value : this.state.value + word + ' ',
+        intnet : Intent.NONE,
+      });
     } else {
       if (words.length ===  0) {
-        this.setState({ 
+        this.setState({
           intnet : Intent.SUCCESS,
         });
         this.props.onGuessed();
@@ -68,12 +68,12 @@ export class TextInput extends React.Component<InputProps, InputState> {
     return (
       <div className="input-box">
           <TextArea
-            autoFocus
+            autoFocus={true}
             intent={this.state.intnet}
             className="pt-fill"
             onChange={this.onChange}
             value={this.state.value}
-        />
+          />
       </div>
     );
   }

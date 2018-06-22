@@ -14,7 +14,14 @@
     "noImplicitAny": false,
     "noImplicitThis": true,
     "strictNullChecks": false,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "plugins": [
+      {
+        "name": "ts-graphql-plugin",
+        "schema": "src/schema.json",
+        "tag": "gql" 
+      }
+    ]
   },
   "exclude": [
     "node_modules",
