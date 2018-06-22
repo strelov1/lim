@@ -1,7 +1,7 @@
 {
   "name": "lim",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://strelov1.github.io/lim/",
   "dependencies": {
     "@blueprintjs/core": "^2.3.1",
     "@blueprintjs/table": "^2.1.1",
@@ -25,6 +25,7 @@
     "@types/react-router-dom": "^4.2.7",
     "@types/react-transition-group": "^2.0.11",
     "apollo-codegen": "0.19.1",
+    "gh-pages": "^1.2.0",
     "react-scripts-ts": "^2.16.0",
     "react-test-renderer": "16.4.1",
     "ts-graphql-plugin": "^1.1.2",
@@ -38,6 +39,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
+    "deploy": "gh-pages -d build",
     "schema": "apollo-codegen introspect-schema http://localhost:4466 --output ./src/schema.json",
     "types": "apollo-codegen generate ./src/**/queries.ts --addTypename --schema ./src/schema.json --target typescript --output ./src/__generated__/types.ts"
   }
